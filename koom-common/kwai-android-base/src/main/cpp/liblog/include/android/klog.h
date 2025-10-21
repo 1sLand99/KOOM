@@ -65,7 +65,7 @@
  */
 #ifdef __BIONIC_AVAILABILITY
 #undef __BIONIC_AVAILABILITY
-#define __BIONIC_AVAILABILITY(__what) __attribute__((__availability__(android,__what)))
+#define __BIONIC_AVAILABILITY(__what, ...) __attribute__((__availability__(android,__what __VA_OPT__(,) __VA_ARGS__)))
 #include <android/log.h>
 #endif
 

@@ -83,14 +83,15 @@ static void CreateMap(benchmark::State& state, BacktraceMap* (*map_func)(pid_t, 
       if ((i % 2) == 0) {
         flags |= PROT_EXEC;
       }
-      void* memory = mmap(nullptr, PAGE_SIZE, flags, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+      size_t page_size = getpagesize();
+      void* memory = mmap(nullptr, page_size, flags, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
       if (memory == MAP_FAILED) {
         fprintf(stderr, "Failed to create map: %s\n", strerror(errno));
         exit(1);
       }
-      memset(memory, 0x1, PAGE_SIZE);
+      memset(memory, 0x1, page_size);
 #if defined(PR_SET_VMA)
-      if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, memory, PAGE_SIZE, "test_map") == -1) {
+      if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, memory, page_size, "test_map") == -1) {
         fprintf(stderr, "Failed: %s\n", strerror(errno));
       }
 #endif

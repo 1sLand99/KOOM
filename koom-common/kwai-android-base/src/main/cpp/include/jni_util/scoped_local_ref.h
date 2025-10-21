@@ -20,7 +20,7 @@
 #pragma once
 
 #include <jni.h>
-
+#include <cstddef>
 template <typename T>
 class ScopedLocalRef {
  public:

@@ -37,6 +37,15 @@
 #include "xh_errno.h"
 #include "xh_log.h"
 
+// NDK 28兼容性：确保PAGE_SIZE和PAGE_MASK被正确定义
+#ifndef PAGE_SIZE
+#define PAGE_SIZE getpagesize()
+#endif
+
+#ifndef PAGE_MASK
+#define PAGE_MASK (~(PAGE_SIZE - 1))
+#endif
+
 #define PAGE_START(addr) ((addr) & PAGE_MASK)
 #define PAGE_END(addr)   (PAGE_START(addr + sizeof(uintptr_t) - 1) + PAGE_SIZE)
 #define PAGE_COVER(addr) (PAGE_END(addr) - PAGE_START(addr))
