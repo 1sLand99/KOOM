@@ -99,7 +99,7 @@ ssize_t SendLogdControlMessage(char *buf, size_t buf_size) {
   while ((ret = TEMP_FAILURE_RETRY(read(sock, cp, len))) > 0) {
     struct pollfd p;
 
-    if (((size_t)ret == len) || (buf_size < PAGE_SIZE)) {
+    if (((size_t)ret == len) || (buf_size < getpagesize())) {
       break;
     }
 
